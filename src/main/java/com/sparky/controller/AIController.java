@@ -1,8 +1,8 @@
 package com.sparky.controller;
 
 
-import com.sparky.entity.RequestLog;
-import com.sparky.entity.User;
+import com.sparky.Domain.RequestLog;
+import com.sparky.Domain.User;
 import com.sparky.service.AIService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

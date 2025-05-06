@@ -1,6 +1,6 @@
 package com.sparky.controller;
 
-import com.sparky.entity.Company;
+import com.sparky.Domain.Company;
 import com.sparky.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

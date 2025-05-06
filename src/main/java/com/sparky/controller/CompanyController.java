@@ -1,7 +1,7 @@
 package com.sparky.controller;
-import com.sparky.entity.Restriction;
-import com.sparky.entity.User;
-import com.sparky.entity.UserLimit;
+import com.sparky.Domain.Restriction;
+import com.sparky.Domain.User;
+import com.sparky.Domain.UserLimit;
 import com.sparky.service.RestrictionService;
 import com.sparky.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

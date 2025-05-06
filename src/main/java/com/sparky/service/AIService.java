@@ -1,6 +1,6 @@
 package com.sparky.service;
 
-import com.sparky.entity.*;
+import com.sparky.Domain.*;
 import com.sparky.repository.RequestLogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.sparky.repository;
 
-import com.sparky.entity.Restriction;
+import com.sparky.Domain.Restriction;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

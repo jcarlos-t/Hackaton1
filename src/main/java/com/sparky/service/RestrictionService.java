@@ -2,7 +2,7 @@ package com.sparky.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.sparky.entity.Restriction;
+import com.sparky.Domain.Restriction;
 import com.sparky.repository.RestrictionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

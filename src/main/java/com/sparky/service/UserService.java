@@ -1,6 +1,5 @@
 package com.sparky.service;
-
-import com.sparky.entity.*;
+import com.sparky.Domain.*;
 import com.sparky.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,10 +17,6 @@ public class UserService {
     private UserLimitRepository userLimitRepository;
 
     public User createUser(User user) {
-
-
-
-
         return userRepository.save(user);
     }
 
