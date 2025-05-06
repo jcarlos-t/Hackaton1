@@ -1,45 +1,50 @@
 package com.sparky.controller;
 
-
-import com.sparky.entity.RequestLog;
+import com.sparky.ai.dto.*;
+import com.sparky.ai.Service.AIService;
 import com.sparky.entity.User;
-import com.sparky.service.AIService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/ai")
+@PreAuthorize("hasRole('ROLE_USER')")
 public class AIController {
 
-    @Autowired
-    private AIService aiService;
+    @Autowired private AIService aiService;
 
     @PostMapping("/chat")
-    public ResponseEntity<RequestLog> chat(@RequestBody String prompt) {
-        // Simular llamada a modelo AI y logueo
-        return ResponseEntity.ok(aiService.logRequest(new User(), prompt, "respuesta", 50, "openai:gpt", null));
+    public ResponseEntity<AIResponse> chat(@AuthenticationPrincipal User user,
+                                           @RequestBody @Valid AIChatRequest req) {
+        return ResponseEntity.ok(aiService.chat(user.getId(), req));
     }
 
     @PostMapping("/completion")
-    public ResponseEntity<RequestLog> complete(@RequestBody String prompt) {
-        return ResponseEntity.ok(aiService.logRequest(new User(), prompt, "completado", 60, "meta:llama2", null));
+    public ResponseEntity<AIResponse> completion(@AuthenticationPrincipal User user,
+                                                 @RequestBody @Valid AICompletionRequest req) {
+        return ResponseEntity.ok(aiService.completion(user.getId(), req));
     }
 
-    @PostMapping("/multimodal")
-    public ResponseEntity<RequestLog> multimodal(@RequestBody String prompt) {
-        return ResponseEntity.ok(aiService.logRequest(new User(), prompt, "imagen + texto", 90, "multimodal:model", "img.png"));
+    @PostMapping(value = "/multimodal", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<AIResponse> multimodal(@AuthenticationPrincipal User user,
+                                                 @ModelAttribute @Valid AIMultimodalRequest req) throws IOException {
+        return ResponseEntity.ok(aiService.multimodal(user.getId(), req));
     }
 
     @GetMapping("/models")
-    public ResponseEntity<List<String>> getModels() {
-        return ResponseEntity.ok(List.of("openai:gpt", "meta:llama2", "multimodal:model", "deepspeak:voice"));
+    public ResponseEntity<List<String>> availableModels() {
+        return ResponseEntity.ok(List.of("openai-gpt4", "meta-llama", "deepspeak", "github-multimodal"));
     }
 
     @GetMapping("/history")
-    public ResponseEntity<List<RequestLog>> getHistory(@RequestParam Long userId) {
-        return ResponseEntity.ok(aiService.getUserHistory(userId));
+    public ResponseEntity<List<AIRequestLogDTO>> history(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(aiService.getHistory(user.getId()));
     }
 }
