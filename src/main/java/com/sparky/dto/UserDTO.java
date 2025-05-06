@@ -2,7 +2,7 @@ package com.sparky.dto;
 
 
 import lombok.Data;
-import com.sparky.entity.User.Role;
+import com.sparky.Domain.User.Role;
 
 @Data
 public class UserDTO {
