@@ -28,9 +28,12 @@ public class AIService {
     @Value("${ai.api.url}")
     private String apiUrl;
 
-    @Autowired private RequestLogRepository logRepo;
-    @Autowired private UserRepository userRepo;
-    @Autowired private LimitService limitService;
+    @Autowired
+    private RequestLogRepository logRepo;
+    @Autowired
+    private UserRepository userRepo;
+    @Autowired
+    private LimitService limitService;
 
     private final RestTemplate restTemplate = new RestTemplate();
 

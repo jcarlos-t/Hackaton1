@@ -1,6 +1,6 @@
 package com.sparky;
 
-import com.sparky.security.JwtAuthenticationFilter;
+import com.sparky.service.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
