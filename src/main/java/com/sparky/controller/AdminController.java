@@ -43,7 +43,6 @@ public class AdminController {
         return ResponseEntity.ok().build();
     }
 
-    // El endpoint de consumo se puede implementar cuando haya lógica acumuladora de tokens por modelo
     @GetMapping("/{id}/consumption")
     public ResponseEntity<String> getConsumption(@PathVariable Long id) {
         return ResponseEntity.ok("(Simulado) Consumo de la empresa con ID: " + id);

@@ -2,6 +2,7 @@ package com.sparky.controller;
 import com.sparky.Domain.Restriction;
 import com.sparky.Domain.User;
 import com.sparky.Domain.UserLimit;
+import com.sparky.repository.UserRepository;
 import com.sparky.service.RestrictionService;
 import com.sparky.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,11 @@ public class CompanyController {
     private RestrictionService restrictionService;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private UserService userService;
 
-    // Restricciones
     @PostMapping("/restrictions")
     public ResponseEntity<Restriction> createRestriction(@RequestBody Restriction r) {
         return ResponseEntity.ok(restrictionService.createRestriction(r));
@@ -42,16 +45,20 @@ public class CompanyController {
         return ResponseEntity.ok().build();
     }
 
-    // Usuarios
     @PostMapping("/users")
     public ResponseEntity<User> createUser(@RequestBody User u) {
         return ResponseEntity.ok(userService.createUser(u));
     }
 
     @GetMapping("/users")
-    public ResponseEntity<List<User>> listUsers(@RequestParam Long companyId) {
-        return ResponseEntity.ok(userService.getUsersByCompany(companyId));
+    public ResponseEntity<List<User>> getAllUsers() {
+        return ResponseEntity.ok(userRepository.findAll());
     }
+
+//    @GetMapping("/users")
+//    public ResponseEntity<List<User>> listUsers(@RequestParam Long companyId) {
+//        return ResponseEntity.ok(userService.getUsersByCompany(companyId));
+//    }
 
     @GetMapping("/users/{id}")
     public ResponseEntity<User> getUser(@PathVariable Long id) {

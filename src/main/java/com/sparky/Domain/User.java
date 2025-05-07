@@ -1,12 +1,12 @@
 package com.sparky.Domain;
 
 import jakarta.persistence.*;
-import jdk.jfr.DataAmount;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -14,11 +14,12 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+@Table(name = "\"user\"") // user es palabra reservada en PostgreSQL
+public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String username;
     private String email;
     private String password;
@@ -36,8 +37,39 @@ public class User {
     private List<RequestLog> requests;
 
     public enum Role {
-        ROLE_SPARKY_ADMIN,
-        ROLE_COMPANY_ADMIN,
-        ROLE_USER
+        SPARKY_ADMIN,
+        COMPANY_ADMIN,
+        USER
+    }
+
+    // Y getAuthorities
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email; // usamos el email como nombre de usuario
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true; // puedes customizar según tu lógica
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

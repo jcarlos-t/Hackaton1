@@ -1,8 +1,11 @@
 package com.sparky.service;
 
 import com.sparky.Domain.Company;
+import com.sparky.Domain.User;
 import com.sparky.repository.CompanyRepository;
+import com.sparky.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,8 +17,30 @@ public class CompanyService {
     @Autowired
     private CompanyRepository companyRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public Company createCompany(Company company) {
-        return companyRepository.save(company);
+        User admin = company.getAdmin();
+
+        // Encriptar password
+        admin.setPassword(passwordEncoder.encode(admin.getPassword()));
+
+        // Asignar rol y relación con la empresa
+        admin.setRole(User.Role.COMPANY_ADMIN);
+        admin.setCompany(company);
+
+        // Guardar empresa primero (para tener ID)
+        Company savedCompany = companyRepository.save(company);
+
+        // Asociar empresa guardada al admin y guardar
+        admin.setCompany(savedCompany);
+        userRepository.save(admin);
+
+        return savedCompany;
     }
 
     public List<Company> getAllCompanies() {
