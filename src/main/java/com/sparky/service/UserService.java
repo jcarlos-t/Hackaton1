@@ -15,7 +15,9 @@ public class UserService {
 
     @Autowired
     private UserLimitRepository userLimitRepository;
-
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
     public User createUser(User user) {
         return userRepository.save(user);
     }
