@@ -19,10 +19,9 @@ public class AIService {
     @Autowired private RequestLogRepository requestLogRepository;
 
     private static final Set<String> SUPPORTED_MODELS = Set.of(
-            "openai/o4-mini",
-            "meta/llama-2-7b-chat",
-            "deepseek-ai/deepseek-llm-7b",
-            "your-org/your-multimodal-model"
+            "openai/gpt-4o",
+            "meta/Meta-Llama-3.1-8B-Instruct",
+            "deepseek/DeepSeek-V3-0324"
     );
 
     public String handleAIRequest(User user, String prompt, MultipartFile file, String model) {
